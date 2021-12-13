@@ -54,12 +54,11 @@ class Preprocessor():
         self.encoder = encoder
         self.decoder = decoder
 
-    def create_sample_dataset(self):
+    def create_dataset(self, BATCH_SIZE = 16):
         BUFFER_SIZE = len(self.input)
-        BATCH_SIZE = 64
 
         dataset = tf.data.Dataset.from_tensor_slices((self.input, self.target))
         dataset.shuffle(BUFFER_SIZE)
         dataset = dataset.batch(BATCH_SIZE)
 
-        self.sample_dataset = dataset
+        self.dataset = dataset
