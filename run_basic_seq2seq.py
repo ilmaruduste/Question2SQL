@@ -1,6 +1,7 @@
 from basic_seq2seq import preprocessing
 from basic_seq2seq import training
 from basic_seq2seq import masked_loss
+from basic_seq2seq import translating
 import tensorflow as tf
 import argparse
 import matplotlib.pyplot as plt
@@ -93,6 +94,13 @@ else:
 
     print("Training ended!")
 
+    translator = translating.Translator(
+        encoder=train_translator.encoder,
+        decoder=train_translator.decoder,
+        input_text_processor=my_preprocessor.input_text_processor,
+        output_text_processor=my_preprocessor.output_text_processor,
+    )
+
     model_filepath = 'models/basic_seq2seq'
     print(f"Saving model to {model_filepath}!")
-    train_translator.save(model_filepath)
+    translator.save(model_filepath)
