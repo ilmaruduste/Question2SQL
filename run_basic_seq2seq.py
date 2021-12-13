@@ -103,4 +103,5 @@ else:
 
     model_filepath = 'models/basic_seq2seq'
     print(f"Saving model to {model_filepath}!")
-    translator.save(model_filepath)
+    tf.saved_model.save(translator, model_filepath,
+                    signatures={'serving_default': translator.tf_translate})
