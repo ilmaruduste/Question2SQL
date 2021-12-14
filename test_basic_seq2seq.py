@@ -36,7 +36,7 @@ results_dict = dict({'original_input': my_preprocessor.input,
     'model_output': with_preprocessing_result, 
     'original_output': my_preprocessor.target})
 
-for i in range(my_preprocessor.input):
+for i in range(len(my_preprocessor.input)):
     print(f"original_input: {results_dict['original_input'][i]}")
     print(f"model_output: {results_dict['model_output'][i]}")
     print(f"original_output: {results_dict['original_output'][i]}")
