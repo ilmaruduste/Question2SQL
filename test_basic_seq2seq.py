@@ -31,15 +31,16 @@ translator = tf.saved_model.load(args.model)
 
 # without_preprocessing_result = translator.translate(my_preprocessor)
 with_preprocessing_result = translator.tf_translate(my_preprocessor.input)
-print(with_preprocessing_result)
+model_output_list = [query.numpy().decode() for query in list(with_preprocessing_result['text'])]
+# print(model_output_list)
 
 results_dict = dict({'original_input': my_preprocessor.input, 
-    'model_output': list(with_preprocessing_result['text']), 
+    'model_output': model_output_list, 
     'original_output': my_preprocessor.target})
 
 for i in range(len(my_preprocessor.input)):
     print(f"original_input: {results_dict['original_input'][i]}")
-    print(f"model_output: {results_dict['model_output'][i]}")
+    print(f"model_output: {model_output_list[i]}")
     print(f"original_output: {results_dict['original_output'][i]}")
     print()
 
