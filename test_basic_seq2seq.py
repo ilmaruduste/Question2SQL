@@ -33,7 +33,7 @@ translator = tf.saved_model.load(args.model)
 with_preprocessing_result = translator.tf_translate(my_preprocessor.input)
 
 results_dict = dict({'original_input': my_preprocessor.input, 
-    'model_output': with_preprocessing_result, 
+    'model_output': list(with_preprocessing_result), 
     'original_output': my_preprocessor.target})
 
 for i in range(len(my_preprocessor.input)):
