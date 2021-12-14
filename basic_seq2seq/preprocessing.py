@@ -21,9 +21,9 @@ class Preprocessor():
 
     def load_and_preprocess_data(self, data_json_path):
         print(f"Loading and preprocessing data from {data_json_path}!")
-        train_spider = pd.read_json(data_json_path)
-        input = np.array(train_spider['question'])
-        target = np.array(train_spider['query'])
+        dataset_json = pd.read_json(data_json_path)
+        input = np.array(dataset_json['question'])
+        target = np.array(dataset_json['query'])
 
         self.input, self.target = self.tf_lower_and_split_punct(input), self.tf_lower_and_split_punct(target)
 
