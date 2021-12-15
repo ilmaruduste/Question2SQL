@@ -31,7 +31,7 @@ class Preprocessor():
             # The next line concatenates the table name and column names to each input question
             joined_data['concatenated_input'] = joined_data.apply(
                 lambda x: x['question'] + 
-                    ','.join(x['table_names_original']) + 
+                    ', '.join(x['table_names_original']) + 
                     ', '.join([column_name[1] for column_name in x['column_names_original']]), 
                 axis = 1)
 
