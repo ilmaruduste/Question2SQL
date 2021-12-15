@@ -24,13 +24,20 @@ parser.add_argument(
     help = "Specify batch size for training model with TensorFlow. Use a small batch size (e.g. 16) if you don't have a separate GPU.",
     dest = "arg_batch_size"
     )
+parser.add_argument(
+    '-c', 
+    '--concatenate', 
+    action = "store_true", 
+    help = "Concatenate input together with table name and table columns for a potentially better input.",
+    dest = "concatenate"
+    )
 args = parser.parse_args()
 
 print(f"Starting run_basic_seq2seq.py script!")
 my_preprocessor = preprocessing.Preprocessor()
 
 
-my_preprocessor.load_and_preprocess_data('spider/train_spider.json')
+my_preprocessor.load_and_preprocess_data('spider/train_spider.json', args.concatenate)
 my_preprocessor.create_text_processors()
 my_preprocessor.create_encoder_decoder()
 
