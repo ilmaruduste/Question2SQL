@@ -41,7 +41,7 @@ print(f"Starting test_basic_seq2seq.py script!")
 my_preprocessor = preprocessing.Preprocessor()
 
 if args.wiki:
-    my_preprocessor.load_and_preprocess_data('WikiSQL/test.csv', args.concatenate, wikisql = True)
+    my_preprocessor.load_and_preprocess_data('wikisql/test.csv', args.concatenate, wikisql = True)
 else:
     my_preprocessor.load_and_preprocess_data('spider/dev.json', args.concatenate)
 
