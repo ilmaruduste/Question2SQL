@@ -62,11 +62,12 @@ class Preprocessor():
 
     def create_encoder_decoder(self, embedding_dim = 256, units = 1024):
         print("Creating encoder and decoder!")
+        self.create_glove_embeddings_matrix()
         encoder = encoding.Encoder(self.input_text_processor.vocabulary_size(),
-                        embedding_dim, units)
+                        embedding_dim, units, self.embedding_matrix)
 
         decoder = decoding.Decoder(self.output_text_processor.vocabulary_size(),
-                    embedding_dim, units)
+                    embedding_dim, units, self.embedding_matrix)
 
         self.encoder = encoder
         self.decoder = decoder
@@ -111,7 +112,7 @@ class Preprocessor():
 
     def create_glove_embeddings_matrix(self):
         print("Creating Glove embedding matrix!")
-        
+
         self.create_word_index()
         num_tokens = len(self.voc) + 2
         embedding_dim = 100
