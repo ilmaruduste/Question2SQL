@@ -34,7 +34,7 @@ class Decoder(tf.keras.layers.Layer):
 
         else:
             print("Using Keras' Embedding layer!")
-            self.embedding = tf.keras.layers.Embedding(self.input_vocab_size,
+            self.embedding = tf.keras.layers.Embedding(self.output_vocab_size,
                                                     embedding_dim)
 
         # For Step 2. The RNN keeps track of what's been generated so far.
