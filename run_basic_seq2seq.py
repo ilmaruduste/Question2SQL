@@ -31,6 +31,14 @@ parser.add_argument(
     help = "Concatenate input together with table name and table columns for a potentially better input.",
     dest = "concatenate"
     )
+parser.add_argument(
+    '-e', 
+    '--epochs', 
+    action = "store_true", 
+    help = "Numper of epochs to train the model for.",
+    dest = "epochs",
+    const = 3
+    )
 args = parser.parse_args()
 
 print(f"Starting run_basic_seq2seq.py script!")
@@ -96,7 +104,7 @@ else:
 
     batch_loss = BatchLogs('batch_loss')
 
-    train_translator.fit(my_preprocessor.dataset, epochs=3,
+    train_translator.fit(my_preprocessor.dataset, epochs=args.epochs,
                      callbacks=[batch_loss])
 
     print("Training ended!")
