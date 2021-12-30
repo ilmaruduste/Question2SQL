@@ -11,7 +11,7 @@ class Encoder(tf.keras.layers.Layer):
     self.embedding_matrix = embedding_matrix
 
     # The embedding layer converts tokens to vectors
-    if self.embedding_matrix != None:
+    if self.embedding_matrix is not None:
 
       print("Using pretrained GLoVe for Embedding layer!")
       self.embedding = tf.keras.layers.Embedding(
