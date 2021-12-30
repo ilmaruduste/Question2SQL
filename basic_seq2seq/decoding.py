@@ -14,15 +14,28 @@ class DecoderOutput(typing.NamedTuple):
     attention_weights: Any
 
 class Decoder(tf.keras.layers.Layer):
-    def __init__(self, output_vocab_size, embedding_dim, dec_units):
+    def __init__(self, output_vocab_size, embedding_dim, dec_units, embedding_matrix = None):
         super(Decoder, self).__init__()
         self.dec_units = dec_units
         self.output_vocab_size = output_vocab_size
         self.embedding_dim = embedding_dim
+        self.embedding_matrix = embedding_matrix
 
-        # For Step 1. The embedding layer convets token IDs to vectors
-        self.embedding = tf.keras.layers.Embedding(self.output_vocab_size,
-                                                embedding_dim)
+        # The embedding layer converts tokens to vectors
+        if self.embedding_matrix:
+
+            print("Using pretrained GLoVe for Embedding layer!")
+            self.embedding = tf.keras.layers.Embedding(
+                self.input_vocab_size,
+                embedding_dim,
+                embeddings_initializer=tf.keras.initializers.Constant(embedding_matrix),
+                trainable=False,
+        )
+
+        else:
+            print("Using Keras' Embedding layer!")
+            self.embedding = tf.keras.layers.Embedding(self.input_vocab_size,
+                                                    embedding_dim)
 
         # For Step 2. The RNN keeps track of what's been generated so far.
         self.gru = tf.keras.layers.GRU(self.dec_units,

@@ -1,14 +1,29 @@
 from . import shape_check
 import tensorflow as tf
+import numpy as np
+import os
 
 class Encoder(tf.keras.layers.Layer):
-  def __init__(self, input_vocab_size, embedding_dim, enc_units):
+  def __init__(self, input_vocab_size, embedding_dim, enc_units, embedding_matrix = None):
     super(Encoder, self).__init__()
     self.enc_units = enc_units
     self.input_vocab_size = input_vocab_size
+    self.embedding_matrix = embedding_matrix
 
     # The embedding layer converts tokens to vectors
-    self.embedding = tf.keras.layers.Embedding(self.input_vocab_size,
+    if self.embedding_matrix:
+
+      print("Using pretrained GLoVe for Embedding layer!")
+      self.embedding = tf.keras.layers.Embedding(
+          self.input_vocab_size,
+          embedding_dim,
+          embeddings_initializer=tf.keras.initializers.Constant(embedding_matrix),
+          trainable=False,
+)
+
+    else:
+      print("Using Keras' Embedding layer!")
+      self.embedding = tf.keras.layers.Embedding(self.input_vocab_size,
                                                embedding_dim)
 
     # The GRU RNN layer processes those vectors sequentially.

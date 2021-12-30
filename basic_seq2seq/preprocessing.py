@@ -4,6 +4,7 @@ from . import decoding
 import tensorflow as tf
 import numpy as np
 import pandas as pd
+import os
 
 class Preprocessor():
 
@@ -78,3 +79,52 @@ class Preprocessor():
         dataset = dataset.batch(BATCH_SIZE)
 
         self.dataset = dataset
+    
+    def create_word_index(self):
+        from tf.keras.layers import TextVectorization
+
+        vectorizer = TextVectorization(max_tokens=20000, output_sequence_length=200)
+        text_ds = tf.data.Dataset.from_tensor_slices(self.input).batch(128)
+        vectorizer.adapt(text_ds)
+        voc = vectorizer.get_vocabulary()
+        word_index = dict(zip(voc, range(len(voc))))
+
+        self.voc = voc
+        self.word_index = word_index
+
+        return word_index
+
+    # https://keras.io/examples/nlp/pretrained_word_embeddings/
+    def create_glove_embeddings_index(self):
+        embeddings_index = {}
+        glove_filepath = os.path.join('./glove/', 'glove.42B.300d.txt')
+        print(f"glove_filepath: {glove_filepath}")
+        with open(glove_filepath) as f:
+            for line in f:
+                word, coefs = line.split(maxsplit=1)
+                coefs = np.fromstring(coefs, "f", sep=" ")
+                embeddings_index[word] = coefs
+        self.embeddings_index = embeddings_index
+        return embeddings_index
+
+    def create_glove_embeddings_matrix(self):
+        num_tokens = len(self.voc) + 2
+        embedding_dim = 100
+        hits = 0
+        misses = 0
+
+        # Prepare embedding matrix
+        embedding_matrix = np.zeros((num_tokens, embedding_dim))
+        for word, i in self.create_word_index().items():
+            embedding_vector = self.create_glove_embeddings_index().get(word)
+            if embedding_vector is not None:
+                # Words not found in embedding index will be all-zeros.
+                # This includes the representation for "padding" and "OOV"
+                embedding_matrix[i] = embedding_vector
+                hits += 1
+            else:
+                misses += 1
+        print("Converted %d words (%d misses)" % (hits, misses))
+
+        self.embedding_matrix = embedding_matrix
+        return embedding_matrix
