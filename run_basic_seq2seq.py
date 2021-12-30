@@ -104,7 +104,7 @@ else:
 
     batch_loss = BatchLogs('batch_loss')
 
-    train_translator.fit(my_preprocessor.dataset, epochs=args.epochs,
+    train_translator.fit(my_preprocessor.dataset, epochs=int(args.epochs),
                      callbacks=[batch_loss])
 
     print("Training ended!")
