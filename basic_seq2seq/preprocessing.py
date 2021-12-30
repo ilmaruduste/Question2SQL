@@ -108,6 +108,7 @@ class Preprocessor():
         return embeddings_index
 
     def create_glove_embeddings_matrix(self):
+        self.create_word_index()
         num_tokens = len(self.voc) + 2
         embedding_dim = 100
         hits = 0
