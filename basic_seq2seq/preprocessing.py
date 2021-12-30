@@ -20,27 +20,34 @@ class Preprocessor():
 
         return text
 
-    def load_and_preprocess_data(self, data_json_path, concatenate_table_data = False):
-        print(f"Loading and preprocessing data from {data_json_path}!")
-        dataset_json = pd.read_json(data_json_path)
+    def load_and_preprocess_data(self, data_path, concatenate_table_data = False, wikisql = False):
+        print(f"Loading and preprocessing data from {data_path}!")
 
-        if concatenate_table_data:
-            print("Concatenating table and column names to each input query!")
-            table_data = pd.read_json('spider/tables.json')
-            joined_data = pd.merge(left = dataset_json, right = table_data, on = "db_id", how = "left")
+        if wikisql:
+            dataset = pd.read_csv(data_path, sep = ',')
+            input = np.array(dataset['question'])
+            target = np.array(dataset['sql'])
             
-            # The next line concatenates the table name and column names to each input question
-            joined_data['concatenated_input'] = joined_data.apply(
-                lambda x: x['question'] + 
-                    ', '.join(x['table_names_original']) + 
-                    ', '.join([column_name[1] for column_name in x['column_names_original']]), 
-                axis = 1)
-
-            input = np.array(joined_data['concatenated_input'])
-            target = np.array(joined_data['query'])
         else:
-            input = np.array(dataset_json['question'])
-            target = np.array(dataset_json['query'])
+            dataset_json = pd.read_json(data_path)
+
+            if concatenate_table_data:
+                print("Concatenating table and column names to each input query!")
+                table_data = pd.read_json('spider/tables.json')
+                joined_data = pd.merge(left = dataset_json, right = table_data, on = "db_id", how = "left")
+                
+                # The next line concatenates the table name and column names to each input question
+                joined_data['concatenated_input'] = joined_data.apply(
+                    lambda x: x['question'] + 
+                        ', '.join(x['table_names_original']) + 
+                        ', '.join([column_name[1] for column_name in x['column_names_original']]), 
+                    axis = 1)
+
+                input = np.array(joined_data['concatenated_input'])
+                target = np.array(joined_data['query'])
+            else:
+                input = np.array(dataset_json['question'])
+                target = np.array(dataset_json['query'])
 
         self.input, self.target = self.tf_lower_and_split_punct(input), self.tf_lower_and_split_punct(target)
 

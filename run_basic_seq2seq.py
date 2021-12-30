@@ -39,13 +39,25 @@ parser.add_argument(
     dest = "epochs",
     default = 3
     )
+parser.add_argument(
+    '-wiki', 
+    '--wikisql', 
+    action = "store_true", 
+    help = "If true, process and test WikiSQL dataset.",
+    dest = "wiki",
+    default = False
+    )
+
 args = parser.parse_args()
 
 print(f"Starting run_basic_seq2seq.py script!")
 my_preprocessor = preprocessing.Preprocessor()
 
+if args.wiki:
+    my_preprocessor.load_and_preprocess_data('WikiSQL/train.csv', args.concatenate, wikisql = True)
+else:
+    my_preprocessor.load_and_preprocess_data('spider/train_spider.json', args.concatenate)
 
-my_preprocessor.load_and_preprocess_data('spider/train_spider.json', args.concatenate)
 my_preprocessor.create_text_processors()
 my_preprocessor.create_encoder_decoder()
 

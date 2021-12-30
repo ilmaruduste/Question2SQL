@@ -26,12 +26,24 @@ parser.add_argument(
     help = "Concatenate input together with table name and table columns for a potentially better input.",
     dest = "concatenate"
     )
+parser.add_argument(
+    '-wiki', 
+    '--wikisql', 
+    action = "store_true", 
+    help = "If true, process and test WikiSQL dataset.",
+    dest = "wiki",
+    default = False
+    )
+
 args = parser.parse_args()
 
 print(f"Starting test_basic_seq2seq.py script!")
 my_preprocessor = preprocessing.Preprocessor()
 
-my_preprocessor.load_and_preprocess_data('spider/dev.json', args.concatenate)
+if args.wiki:
+    my_preprocessor.load_and_preprocess_data('WikiSQL/test.csv', args.concatenate, wikisql = True)
+else:
+    my_preprocessor.load_and_preprocess_data('spider/dev.json', args.concatenate)
 
 translator = tf.saved_model.load(args.model)
 # print(translator.summary())
