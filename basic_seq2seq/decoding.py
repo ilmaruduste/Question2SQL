@@ -22,7 +22,7 @@ class Decoder(tf.keras.layers.Layer):
         self.embedding_matrix = embedding_matrix
 
         # The embedding layer converts tokens to vectors
-        if self.embedding_matrix:
+        if self.embedding_matrix != None:
 
             print("Using pretrained GLoVe for Embedding layer!")
             self.embedding = tf.keras.layers.Embedding(
