@@ -26,7 +26,7 @@ class Decoder(tf.keras.layers.Layer):
 
             print("Using pretrained GLoVe for Embedding layer!")
             self.embedding = tf.keras.layers.Embedding(
-                self.input_vocab_size,
+                self.output_vocab_size,
                 embedding_dim,
                 embeddings_initializer=tf.keras.initializers.Constant(embedding_matrix),
                 trainable=False,
