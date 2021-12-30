@@ -34,7 +34,7 @@ parser.add_argument(
 parser.add_argument(
     '-e', 
     '--epochs', 
-    action = "store_true", 
+    action = "store", 
     help = "Numper of epochs to train the model for.",
     dest = "epochs",
     const = 3
