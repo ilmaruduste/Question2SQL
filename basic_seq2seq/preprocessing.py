@@ -63,6 +63,7 @@ class Preprocessor():
     def create_encoder_decoder(self, embedding_dim = 256, units = 1024):
         print("Creating encoder and decoder!")
         self.create_glove_embeddings_matrix()
+
         encoder = encoding.Encoder(self.input_text_processor.vocabulary_size(),
                         embedding_dim, units, self.embedding_matrix)
 
@@ -113,15 +114,16 @@ class Preprocessor():
         print("Creating Glove embedding matrix!")
 
         self.create_word_index()
+        self.create_glove_embeddings_index()
         num_tokens = len(self.voc) + 2
-        embedding_dim = 100
+        embedding_dim = 300
         hits = 0
         misses = 0
 
         # Prepare embedding matrix
         embedding_matrix = np.zeros((num_tokens, embedding_dim))
-        for word, i in self.create_word_index().items():
-            embedding_vector = self.create_glove_embeddings_index().get(word)
+        for word, i in self.word_index.items():
+            embedding_vector = self.embeddings_index.get(word)
             if embedding_vector is not None:
                 # Words not found in embedding index will be all-zeros.
                 # This includes the representation for "padding" and "OOV"
