@@ -83,6 +83,7 @@ class Preprocessor():
     def create_word_index(self):
         from tf.keras.layers import TextVectorization
 
+        print("Creating word index!")
         vectorizer = TextVectorization(max_tokens=20000, output_sequence_length=200)
         text_ds = tf.data.Dataset.from_tensor_slices(self.input).batch(128)
         vectorizer.adapt(text_ds)
@@ -96,6 +97,7 @@ class Preprocessor():
 
     # https://keras.io/examples/nlp/pretrained_word_embeddings/
     def create_glove_embeddings_index(self):
+        print("Creating Glove embeddings index!")
         embeddings_index = {}
         glove_filepath = os.path.join('./glove/', 'glove.42B.300d.txt')
         print(f"glove_filepath: {glove_filepath}")
@@ -108,6 +110,8 @@ class Preprocessor():
         return embeddings_index
 
     def create_glove_embeddings_matrix(self):
+        print("Creating Glove embedding matrix!")
+        
         self.create_word_index()
         num_tokens = len(self.voc) + 2
         embedding_dim = 100
