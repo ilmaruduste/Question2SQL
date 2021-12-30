@@ -82,10 +82,9 @@ class Preprocessor():
         self.dataset = dataset
     
     def create_word_index(self):
-        from tf.keras.layers import TextVectorization
 
         print("Creating word index!")
-        vectorizer = TextVectorization(max_tokens=20000, output_sequence_length=200)
+        vectorizer = tf.keras.layers.TextVectorization(max_tokens=20000, output_sequence_length=200)
         text_ds = tf.data.Dataset.from_tensor_slices(self.input).batch(128)
         vectorizer.adapt(text_ds)
         voc = vectorizer.get_vocabulary()
