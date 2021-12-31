@@ -27,7 +27,7 @@ class Preprocessor():
             dataset = pd.read_csv(data_path, sep = ',')
             input = np.array(dataset['question'])
             target = np.array(dataset['sql'])
-            
+
         else:
             dataset_json = pd.read_json(data_path)
 
@@ -67,7 +67,7 @@ class Preprocessor():
         self.output_text_processor = output_text_processor
 
 
-    def create_encoder_decoder(self, embedding_dim = 256, units = 1024):
+    def create_encoder_decoder(self, embedding_dim = 128, units = 512):
         print("Creating encoder and decoder!")
         self.create_glove_embeddings_matrix()
 
