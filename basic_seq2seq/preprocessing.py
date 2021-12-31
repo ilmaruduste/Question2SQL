@@ -11,7 +11,7 @@ class Preprocessor():
     def tf_lower_and_split_punct(self, text):
         text = tf.strings.lower(text)
         # Keep space, a to z, and select punctuation.
-        text = tf.strings.regex_replace(text, '[^ a-z.?!,¿]', '')
+        text = tf.strings.regex_replace(text, '[^ a-z.?!,¿0123456789]', '')
         # Add spaces around punctuation.
         text = tf.strings.regex_replace(text, '[.?!,¿]', r' \0 ')
         # Strip whitespace.
