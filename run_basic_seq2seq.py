@@ -6,8 +6,8 @@ import tensorflow as tf
 import argparse
 import matplotlib.pyplot as plt
 
-embedding_dim = 256
-units = 1024
+embedding_dim = 128
+units = 256
 
 parser = argparse.ArgumentParser()
 parser.add_argument(
